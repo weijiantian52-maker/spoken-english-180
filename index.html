@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="为英语零基础学习者设计的六个月口语交流训练产品">
+  <title>开口英语｜六个月流利交流计划</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#today" aria-label="开口英语首页">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span>开口英语</span>
+    </a>
+    <nav class="main-nav" aria-label="主导航">
+      <button class="nav-item active" data-view="today">今天</button>
+      <button class="nav-item" data-view="journal">我的日记</button>
+      <button class="nav-item" data-view="movie">影视英语</button>
+      <button class="nav-item" data-view="conversation">对话训练</button>
+      <button class="nav-item" data-view="roadmap">学习路线</button>
+      <button class="nav-item" data-view="practice">句子练习</button>
+    </nav>
+    <div class="header-progress" aria-label="学习进度">
+      <span id="headerProgressText">已完成 0 天</span>
+      <span class="progress-ring" id="headerProgressRing"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="view active" id="today" aria-labelledby="todayTitle">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow" id="dayLabel">第 1 天 / 180 天 · 认识新朋友</p>
+          <h1 id="todayTitle">今天只学会<br><em>介绍自己</em></h1>
+          <p class="hero-intro">每天完成输入、个人表达、开口对话和间隔复习。六个月后，把英语真正用在交流里。</p>
+          <div class="hero-actions">
+            <button class="primary-button" id="startButton">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              开始今天的课程
+            </button>
+            <span class="duration">今日目标 75 分钟</span>
+          </div>
+        </div>
+        <aside class="week-card" aria-label="本周进度">
+          <div class="week-card-head">
+            <span>本周</span>
+            <strong id="weekFraction">0 / 7</strong>
+          </div>
+          <div class="week-days" id="weekDays"></div>
+          <p>连续学习比一次学很久更有效。</p>
+        </aside>
+      </div>
+
+      <div class="lesson-layout" id="lessonContent">
+        <section class="video-panel">
+          <div class="section-heading">
+            <div>
+              <span class="step-number">01</span>
+              <h2>先听，再模仿</h2>
+            </div>
+            <span class="time-chip">15 分钟</span>
+          </div>
+          <div class="video-frame">
+            <video id="lessonVideo" controls playsinline preload="metadata">
+              <source src="https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="video-meta">
+            <div>
+              <strong id="videoTitle">VOA 初级英语：Welcome!</strong>
+              <span>官方慢速英语 · 带画面情境</span>
+            </div>
+            <a id="sourceLink" href="https://learningenglish.voanews.com/a/let-s-learn-english---level-1---lesson-1-welcome-/5781394.html" target="_blank" rel="noreferrer">查看原课程</a>
+          </div>
+          <div class="listen-guide">
+            <strong>这样看最有效</strong>
+            <ol>
+              <li>第一遍只看画面，听懂多少都没关系。</li>
+              <li>第二遍遇到关键句就暂停，大声模仿三次。</li>
+              <li>第三遍不看中文，尝试跟着人物一起说。</li>
+            </ol>
+          </div>
+        </section>
+
+        <aside class="task-panel">
+          <div class="section-heading compact">
+            <div>
+              <span class="step-number">02</span>
+              <h2>今天的任务</h2>
+            </div>
+            <span class="time-chip">40 分钟</span>
+          </div>
+          <div class="task-list" id="taskList"></div>
+          <button class="complete-button" id="completeDay">完成今天的学习</button>
+        </aside>
+      </div>
+
+      <section class="phrase-section">
+        <div class="section-heading">
+          <div>
+            <span class="step-number">03</span>
+            <h2>今天必须会说的 5 句话</h2>
+          </div>
+          <span class="hint">20 分钟 · 点播放，听完马上跟读</span>
+        </div>
+        <div class="phrase-grid" id="todayPhrases"></div>
+      </section>
+    </section>
+
+    <section class="view" id="journal" aria-labelledby="journalTitle">
+      <div class="page-title journal-title">
+        <p class="eyebrow">建立你自己的英文语言体系</p>
+        <h1 id="journalTitle">把今天想说的话，<br>变成你的<em>英文</em></h1>
+        <p>每天写 3—5 句真实生活，整理成简单英文，再反复听和跟读。你积累的不是课本句子，而是自己以后真的会说的话。</p>
+      </div>
+
+      <div class="journal-flow" aria-label="日记学习流程">
+        <div><span>01</span><strong>用中文写</strong><small>只写真实想说的话</small></div>
+        <div><span>02</span><strong>整理成英文</strong><small>一句话表达一个意思</small></div>
+        <div><span>03</span><strong>慢速循环听</strong><small>听一句，跟读一句</small></div>
+        <div><span>04</span><strong>隔天再复习</strong><small>让表达变成自然反应</small></div>
+      </div>
+
+      <div class="journal-workspace">
+        <section class="journal-editor">
+          <div class="journal-date-row">
+            <div>
+              <span class="step-number">今天的小日记</span>
+              <h2 id="journalDate">正在准备日期</h2>
+            </div>
+            <span class="privacy-label">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9h14v-9a2 2 0 0 0-2-2zm-7-2a2 2 0 0 1 4 0v2h-4V6zm3 9.72V17h-2v-1.28a2 2 0 1 1 2 0z"/></svg>
+              保存在本机
+            </span>
+          </div>
+
+          <label class="journal-field" for="chineseJournal">
+            <span><strong>先用中文写</strong><small id="chineseCount">0 / 200 字</small></span>
+            <textarea id="chineseJournal" maxlength="200" placeholder="例如：今天工作有点忙，但是我完成了很多事情。晚上我想早点休息。"></textarea>
+          </label>
+
+          <div class="translation-help">
+            <div>
+              <strong>怎样得到更自然的英文？</strong>
+              <p>点击复制翻译请求，把它发给你常用的 AI；得到结果后粘贴到下面。请求会要求使用简单、口语化的初级英文。</p>
+            </div>
+            <button class="secondary-button" id="copyTranslationPrompt">复制翻译请求</button>
+          </div>
+
+          <label class="journal-field english-field" for="englishJournal">
+            <span><strong>整理后的英文</strong><small id="englishCount">0 / 500</small></span>
+            <textarea id="englishJournal" maxlength="500" lang="en" placeholder="Today was a busy day at work, but I got a lot done. I want to go to bed early tonight."></textarea>
+          </label>
+
+          <div class="editor-actions">
+            <button class="save-journal-button" id="saveJournal">保存并开始听</button>
+            <button class="clear-button" id="clearJournal">清空</button>
+          </div>
+        </section>
+
+        <aside class="journal-player">
+          <div class="player-head">
+            <span class="step-number">我的英文录音带</span>
+            <span id="sentenceCounter">还没有句子</span>
+          </div>
+          <div class="tape-window" id="tapeWindow">
+            <p id="currentJournalSentence">保存英文日记后，这里会逐句播放。</p>
+            <span id="currentSentenceTranslation">先听，再看文字跟读。</span>
+          </div>
+          <div class="player-controls">
+            <button class="round-control" id="previousSentence" aria-label="上一句">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            </button>
+            <button class="play-journal-button" id="playJournal">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              播放
+            </button>
+            <button class="round-control" id="nextSentence" aria-label="下一句">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 6h2v12h-2zM6 6v12l8.5-6z"/></svg>
+            </button>
+          </div>
+          <div class="player-settings">
+            <label>语速
+              <select id="journalRate">
+                <option value="0.65">很慢</option>
+                <option value="0.8" selected>慢速</option>
+                <option value="1">正常</option>
+              </select>
+            </label>
+            <label class="loop-setting"><input type="checkbox" id="journalLoop" checked><span>循环播放</span></label>
+          </div>
+          <button class="shadow-button" id="shadowSentence">听完了，我跟读这一句</button>
+          <div class="journal-recognition" id="journalRecognition" aria-live="polite">跟读结果会显示在这里</div>
+        </aside>
+      </div>
+
+      <section class="journal-library">
+        <div class="section-heading">
+          <div>
+            <span class="step-number">个人语料库</span>
+            <h2>这些都是你真正想说的话</h2>
+          </div>
+          <span class="hint" id="libraryCount">已积累 0 篇</span>
+        </div>
+        <div class="empty-library" id="emptyLibrary">保存第一篇日记后，它会出现在这里，方便以后反复复习。</div>
+        <div class="library-list" id="libraryList"></div>
+      </section>
+    </section>
+
+    <section class="view" id="movie" aria-labelledby="movieTitle">
+      <div class="page-title movie-title">
+        <p class="eyebrow">电影和短视频都可以练</p>
+        <h1 id="movieTitle">给喜欢的片段，<br>配上你的<em>英文</em></h1>
+        <p>选择一个本机电影或短视频，截取 15—30 秒，给每句中文整理自然英文。看画面、听英文、跟角色一起说，最后关闭字幕完成配音。</p>
+      </div>
+
+      <div class="movie-lab">
+        <section class="movie-screen-panel">
+          <div class="movie-screen" id="movieScreen">
+            <video id="movieVideo" controls playsinline></video>
+            <div class="movie-empty" id="movieEmpty">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM6 6v3h3V6H6zm5 0v3h2V6h-2zm4 0v3h3V6h-3zM6 11v3h3v-3H6zm5 0v3h2v-3h-2zm4 0v3h3v-3h-3zM6 16v2h3v-2H6zm5 0v2h2v-2h-2zm4 0v2h3v-2h-3z"/></svg>
+              <strong>选择你有权使用的视频片段</strong>
+              <span>MP4、MOV 或 WebM，视频只在当前浏览器中打开</span>
+              <label class="upload-movie-button" for="movieFile">选择本机视频</label>
+              <input type="file" id="movieFile" accept="video/mp4,video/quicktime,video/webm">
+            </div>
+            <div class="movie-subtitle" id="movieSubtitle" hidden>
+              <strong id="movieSubtitleEnglish"></strong>
+              <span id="movieSubtitleChinese"></span>
+            </div>
+          </div>
+          <div class="movie-file-row">
+            <span id="movieFileName">尚未选择视频</span>
+            <label for="movieFile">更换视频</label>
+          </div>
+        </section>
+
+        <aside class="line-study-card">
+          <div class="line-card-head">
+            <span class="step-number">当前台词</span>
+            <span id="movieLineCounter">0 / 0</span>
+          </div>
+          <p class="movie-line-en" id="movieLineEnglish">添加第一句英文台词后，从这里开始学习。</p>
+          <p class="movie-line-cn" id="movieLineChinese">一句只表达一个意思，英文要自然，不要逐字直译。</p>
+          <div class="word-breakdown" id="wordBreakdown"></div>
+          <div class="movie-line-actions">
+            <button id="previewDub" class="preview-dub-button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              预览英文配音
+            </button>
+            <button id="listenMovieLine" class="line-listen-button">只听台词</button>
+          </div>
+          <button id="shadowMovieLine" class="movie-shadow-button">关闭字幕，我来配音</button>
+          <div class="movie-recognition" id="movieRecognition" aria-live="polite">跟读结果会显示在这里</div>
+        </aside>
+      </div>
+
+      <div class="subtitle-workbench">
+        <section class="line-editor">
+          <div class="section-heading compact">
+            <div><span class="step-number">制作</span><h2>添加一句双语台词</h2></div>
+          </div>
+          <div class="time-fields">
+            <label>开始时间（秒）<input type="number" id="lineStart" min="0" step="0.1" value="0"></label>
+            <button id="captureStart">使用视频当前时间</button>
+            <label>结束时间（秒）<input type="number" id="lineEnd" min="0" step="0.1" value="3"></label>
+            <button id="captureEnd">使用视频当前时间</button>
+          </div>
+          <label class="line-input">中文原意<input type="text" id="lineChinese" maxlength="100" placeholder="例如：你这不是欺负老实人吗？"></label>
+          <label class="line-input">自然英文<input type="text" id="lineEnglish" maxlength="160" placeholder="例如：Aren't you bullying an honest man?"></label>
+          <div class="natural-english-tip">
+            <strong>自然英文检查</strong>
+            <span>先问“英语里这个场景通常怎么说”，不要按照中文字序逐个翻译。</span>
+          </div>
+          <button class="add-line-button" id="addMovieLine">保存这句台词</button>
+        </section>
+
+        <section class="subtitle-list-panel">
+          <div class="section-heading compact">
+            <div><span class="step-number">字幕表</span><h2>这个片段的台词</h2></div>
+            <span class="hint" id="movieLinesCount">0 句</span>
+          </div>
+          <div class="subtitle-empty" id="subtitleEmpty">还没有台词。播放视频，在每句开始和结束处记录时间，再添加中英文。</div>
+          <div class="subtitle-lines" id="subtitleLines"></div>
+        </section>
+      </div>
+
+      <section class="original-voice-roadmap">
+        <div>
+          <span class="step-number">下一阶段</span>
+          <h2>保留人物原音色，自动变成英文</h2>
+          <p>当前版本使用浏览器英文声音，已经可以完成字幕、配音预览和跟读。若要保留视频中每个人的原始音色，需要在服务器完成下面四步，并且只处理你有权使用的视频。</p>
+        </div>
+        <ol>
+          <li><strong>识别</strong><span>把中文人声转成带时间点的文字</span></li>
+          <li><strong>改写</strong><span>翻成自然英文并匹配原句时长</span></li>
+          <li><strong>配音</strong><span>生成保留说话风格的授权英文声音</span></li>
+          <li><strong>合成</strong><span>替换人声，同时保留音乐和环境声</span></li>
+        </ol>
+      </section>
+    </section>
+
+    <section class="view" id="conversation" aria-labelledby="conversationTitle">
+      <div class="page-title conversation-title">
+        <p class="eyebrow">每周至少完成 3 次</p>
+        <h1 id="conversationTitle">不等准备好，<br>现在就开始<em>对话</em></h1>
+        <p>选择一个真实场景。系统会逐步提问，你需要直接用英文回答。不会的词可以换简单说法，不要切回中文。</p>
+      </div>
+
+      <div class="conversation-layout">
+        <aside class="scenario-panel">
+          <div class="section-heading compact">
+            <div><span class="step-number">场景</span><h2>今天练什么？</h2></div>
+          </div>
+          <div class="scenario-list" id="scenarioList"></div>
+          <div class="conversation-rule">
+            <strong>真实交流的三个规则</strong>
+            <p>先回答，再修正；一句不会就换一种说法；没听懂时主动请求重复。</p>
+          </div>
+        </aside>
+
+        <section class="conversation-stage">
+          <div class="stage-topline">
+            <span id="scenarioLevel">第 1 月 · A1</span>
+            <span id="conversationProgress">问题 1 / 4</span>
+          </div>
+          <div class="coach-message">
+            <span>对方说</span>
+            <p id="coachQuestion" lang="en">Hi! Nice to meet you. What's your name?</p>
+            <button class="small-listen-button" id="listenQuestion">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12z"/></svg>
+              再听一次
+            </button>
+          </div>
+          <div class="answer-area">
+            <span>你来回答</span>
+            <div class="answer-transcript" id="conversationTranscript">点击麦克风后，直接用英文回答</div>
+            <div class="conversation-actions">
+              <button class="conversation-record" id="conversationRecord"><span class="record-dot"></span>开始回答</button>
+              <button class="next-question" id="nextQuestion">下一问</button>
+            </div>
+          </div>
+          <div class="rescue-phrases">
+            <strong>卡住时就说</strong>
+            <button data-rescue="Could you say that again, please?">Could you say that again, please?</button>
+            <button data-rescue="Let me think for a moment.">Let me think for a moment.</button>
+            <button data-rescue="I don't know the word, but it is like...">I don't know the word, but it is like...</button>
+          </div>
+          <div class="session-result" id="sessionResult" hidden>
+            <strong>这轮对话完成了</strong>
+            <p id="sessionResultText"></p>
+            <button id="restartConversation">再练一次</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="roadmap" aria-labelledby="roadmapTitle">
+      <div class="page-title">
+        <p class="eyebrow">从零基础到自然交流</p>
+        <h1 id="roadmapTitle">你的 <em>6 个月</em>交流路线</h1>
+        <p>每天 60—90 分钟，每周一次口语复测。课程从生存表达开始，逐步进入真实生活、讲述经历和表达观点。</p>
+      </div>
+      <div class="roadmap-summary">
+        <div><strong>180</strong><span>天训练周期</span></div>
+        <div><strong>700+</strong><span>个主动表达</span></div>
+        <div><strong>24</strong><span>个真实场景</span></div>
+        <div><strong>15+</strong><span>分钟持续对话</span></div>
+      </div>
+      <div class="month-grid" id="monthGrid"></div>
+    </section>
+
+    <section class="view" id="practice" aria-labelledby="practiceTitle">
+      <div class="page-title practice-title">
+        <p class="eyebrow">听一句，说一句</p>
+        <h1 id="practiceTitle">把英语说出口，<br><em>从这五句开始</em></h1>
+        <p>先听标准发音，再按住录音说一遍。浏览器支持时，会自动显示你说出的内容。</p>
+      </div>
+      <div class="practice-shell">
+        <div class="phrase-selector" id="phraseSelector"></div>
+        <div class="speaking-card">
+          <span class="speaking-index" id="speakingIndex">句子 1 / 5</span>
+          <p class="speaking-en" id="speakingEnglish">Hi, my name is Tevin.</p>
+          <p class="speaking-cn" id="speakingChinese">你好，我叫 Tevin。</p>
+          <div class="speaking-actions">
+            <button class="listen-button" id="listenButton">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12z"/></svg>
+              听发音
+            </button>
+            <button class="record-button" id="recordButton">
+              <span class="record-dot"></span>
+              开始跟读
+            </button>
+          </div>
+          <div class="recognition-result" id="recognitionResult" aria-live="polite">准备好后，点击“开始跟读”</div>
+          <p class="browser-note">录音识别建议使用 Chrome 或 Edge，并允许麦克风权限。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>开口英语 · 为零基础学习者设计</span>
+    <span>视频来源：VOA Learning English</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
