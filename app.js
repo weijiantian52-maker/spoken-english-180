@@ -1,9 +1,39 @@
-const phrases = [
-  { en: "Hi, my name is Tevin.", cn: "你好，我叫 Tevin。" },
-  { en: "Nice to meet you.", cn: "很高兴认识你。" },
-  { en: "I am from China.", cn: "我来自中国。" },
-  { en: "I live in New York.", cn: "我住在纽约。" },
-  { en: "I am learning English.", cn: "我正在学习英语。" }
+const dailyLessons = [
+  { theme: "认识新朋友", lead: "今天只学会", focus: "介绍自己", video: 0, phrases: [
+    { en: "Hi, my name is Tevin.", cn: "你好，我叫 Tevin。" }, { en: "Nice to meet you.", cn: "很高兴认识你。" },
+    { en: "I am from China.", cn: "我来自中国。" }, { en: "I live in New York.", cn: "我住在纽约。" },
+    { en: "I am learning English.", cn: "我正在学习英语。" }
+  ]},
+  { theme: "自然打招呼", lead: "今天学会", focus: "把寒暄接下去", video: 1, phrases: [
+    { en: "Hi! How are you?", cn: "嗨！你好吗？" }, { en: "I'm good, thanks.", cn: "我很好，谢谢。" },
+    { en: "How about you?", cn: "你呢？" }, { en: "It's good to see you.", cn: "很高兴见到你。" },
+    { en: "Have a great day.", cn: "祝你今天愉快。" }
+  ]},
+  { theme: "说清楚地点", lead: "今天学会", focus: "说我在哪里", video: 2, phrases: [
+    { en: "I'm here.", cn: "我在这里。" }, { en: "I'm at home now.", cn: "我现在在家。" },
+    { en: "I'm on my way.", cn: "我正在路上。" }, { en: "It's near my office.", cn: "它在我办公室附近。" },
+    { en: "Where are you now?", cn: "你现在在哪里？" }
+  ]},
+  { theme: "问清楚事物", lead: "今天学会", focus: "问这是什么", video: 3, phrases: [
+    { en: "What is this?", cn: "这是什么？" }, { en: "It's my phone.", cn: "这是我的手机。" },
+    { en: "Is this yours?", cn: "这是你的吗？" }, { en: "I don't know what it is.", cn: "我不知道这是什么。" },
+    { en: "Can you show me?", cn: "你能给我看看吗？" }
+  ]},
+  { theme: "问路与位置", lead: "今天学会", focus: "问人在哪里", video: 4, phrases: [
+    { en: "Where are you?", cn: "你在哪里？" }, { en: "I'm near the entrance.", cn: "我在入口附近。" },
+    { en: "Go straight ahead.", cn: "一直往前走。" }, { en: "Turn left here.", cn: "在这里左转。" },
+    { en: "I can meet you there.", cn: "我可以在那里见你。" }
+  ]},
+  { theme: "在陌生地方求助", lead: "今天学会", focus: "礼貌地问路", video: 5, phrases: [
+    { en: "Excuse me, can you help me?", cn: "打扰一下，你能帮我吗？" }, { en: "Where is the gym?", cn: "健身房在哪里？" },
+    { en: "Is it far from here?", cn: "离这里远吗？" }, { en: "Could you say that again?", cn: "你能再说一遍吗？" },
+    { en: "Thank you for your help.", cn: "谢谢你的帮助。" }
+  ]},
+  { theme: "一周复习", lead: "今天不学新句子", focus: "把旧句说顺", video: 0, phrases: [
+    { en: "Let me introduce myself.", cn: "让我介绍一下自己。" }, { en: "How about you?", cn: "你呢？" },
+    { en: "I'm on my way.", cn: "我正在路上。" }, { en: "Can you show me?", cn: "你能给我看看吗？" },
+    { en: "Could you say that again?", cn: "你能再说一遍吗？" }
+  ]}
 ];
 
 const months = [
@@ -40,11 +70,19 @@ const videos = [
   { title: "VOA 初级英语：Where Is the Gym?", page: "https://learningenglish.voanews.com/a/lets-learn-english-lesson-6-where-is-the-gym/3225958.html", src: "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/1/17/17b61020-32a1-4021-9575-adbf9ee76979_hq.mp4" }
 ];
 
-const state = JSON.parse(localStorage.getItem("spokenEnglishState") || '{"completedDays":[],"tasks":{},"journals":[]}');
+let state;
+try {
+  state = JSON.parse(localStorage.getItem("spokenEnglishState") || "{}");
+} catch {
+  state = {};
+}
 state.completedDays ||= [];
 state.tasks ||= {};
 state.journals ||= [];
 state.movieLines ||= [];
+state.completedDays = [...new Set(state.completedDays.map(Number).filter(day => day >= 1 && day <= 180))].sort((a, b) => a - b);
+let currentDay = Math.min(state.completedDays.length + 1, 180);
+let phrases = dailyLessons[(currentDay - 1) % dailyLessons.length].phrases;
 let activePhrase = 0;
 let journalSentences = [];
 let currentJournalSentence = 0;
@@ -55,6 +93,7 @@ let conversationAnswers = [];
 let activeMovieLine = 0;
 let movieObjectUrl = "";
 let movieStopHandler = null;
+let subtitleMode = "bilingual";
 
 function saveState() { localStorage.setItem("spokenEnglishState", JSON.stringify(state)); }
 function showToast(message) {
@@ -79,7 +118,7 @@ document.querySelector("#startButton").addEventListener("click", () => {
 });
 
 function renderTasks() {
-  const taskState = state.tasks[1] || [];
+  const taskState = state.tasks[currentDay] || [];
   document.querySelector("#taskList").innerHTML = tasks.map((task, index) => `
     <label class="task-item ${taskState[index] ? "checked" : ""}">
       <input type="checkbox" ${taskState[index] ? "checked" : ""} data-task="${index}">
@@ -87,11 +126,28 @@ function renderTasks() {
       <span><strong>${task.title}</strong><span>${task.detail}</span></span>
     </label>`).join("");
   document.querySelectorAll("[data-task]").forEach(input => input.addEventListener("change", event => {
-    state.tasks[1] ||= [];
-    state.tasks[1][event.target.dataset.task] = event.target.checked;
+    state.tasks[currentDay] ||= [];
+    state.tasks[currentDay][event.target.dataset.task] = event.target.checked;
     saveState();
     renderTasks();
   }));
+}
+
+function renderTodayLesson() {
+  const lesson = dailyLessons[(currentDay - 1) % dailyLessons.length];
+  phrases = lesson.phrases;
+  activePhrase = 0;
+  document.querySelector("#dayLabel").textContent = `第 ${currentDay} 天 / 180 天 · ${lesson.theme}`;
+  document.querySelector("#todayLead").textContent = lesson.lead;
+  document.querySelector("#todayFocus").textContent = lesson.focus;
+  const todayVideo = videos[lesson.video];
+  const video = document.querySelector("#lessonVideo");
+  if (video.src !== todayVideo.src) video.src = todayVideo.src;
+  document.querySelector("#videoTitle").textContent = todayVideo.title;
+  document.querySelector("#sourceLink").href = todayVideo.page;
+  renderTasks();
+  renderPhrases();
+  selectPhrase(0);
 }
 
 function speak(text) {
@@ -181,9 +237,14 @@ function renderJournalLibrary() {
     speakJournalSentence();
   }));
   document.querySelectorAll("[data-delete-journal]").forEach(button => button.addEventListener("click", () => {
-    state.journals.splice(Number(button.dataset.deleteJournal), 1);
+    const deleted = state.journals.splice(Number(button.dataset.deleteJournal), 1)[0];
     saveState();
     renderJournalLibrary();
+    if (deleted && journalSentences.join(" ") === splitEnglishSentences(deleted.english).join(" ")) {
+      journalSentences = [];
+      currentJournalSentence = 0;
+      stopJournal();
+    }
     showToast("这篇日记已删除");
   }));
 }
@@ -197,7 +258,15 @@ function initializeJournal() {
   const dateKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
   document.querySelector("#journalDate").textContent = formatJournalDate(dateKey);
   const latest = state.journals.find(entry => entry.date === dateKey) || state.journals[0];
-  if (latest) loadJournalIntoPlayer(latest);
+  if (latest) {
+    loadJournalIntoPlayer(latest);
+    if (latest.date === dateKey) {
+      document.querySelector("#chineseJournal").value = latest.chinese;
+      document.querySelector("#englishJournal").value = latest.english;
+      document.querySelector("#chineseCount").textContent = `${latest.chinese.length} / 200 字`;
+      document.querySelector("#englishCount").textContent = `${latest.english.length} / 500`;
+    }
+  }
   renderJournalLibrary();
   updateJournalPlayer();
 }
@@ -366,8 +435,17 @@ function updateConversationStage() {
   document.querySelector("#scenarioLevel").textContent = scenario.level;
   document.querySelector("#conversationProgress").textContent = `问题 ${activeQuestion + 1} / ${scenario.questions.length}`;
   document.querySelector("#coachQuestion").textContent = scenario.questions[activeQuestion];
-  document.querySelector("#conversationTranscript").textContent = "点击麦克风后，直接用英文回答";
+  const answer = conversationAnswers[activeQuestion] || "";
+  document.querySelector("#conversationTranscript").textContent = answer || "点击麦克风后直接回答，或在下方输入英文";
+  document.querySelector("#conversationTextInput").value = answer;
+  document.querySelector("#nextQuestion").textContent = activeQuestion === scenario.questions.length - 1 ? "完成对话" : "下一问";
 }
+
+document.querySelector("#conversationTextInput").addEventListener("input", event => {
+  const answer = event.target.value.trim();
+  conversationAnswers[activeQuestion] = answer;
+  document.querySelector("#conversationTranscript").textContent = answer || "请输入一句英文回答";
+});
 
 document.querySelector("#listenQuestion").addEventListener("click", () => speak(scenarios[activeScenario].questions[activeQuestion]));
 document.querySelectorAll("[data-rescue]").forEach(button => button.addEventListener("click", () => speak(button.dataset.rescue)));
@@ -385,6 +463,7 @@ document.querySelector("#conversationRecord").addEventListener("click", () => {
     const transcript = event.results[0][0].transcript;
     conversationAnswers[activeQuestion] = transcript;
     document.querySelector("#conversationTranscript").textContent = transcript;
+    document.querySelector("#conversationTextInput").value = transcript;
   };
   engine.onerror = () => { document.querySelector("#conversationTranscript").textContent = "没有听清，请再回答一次"; };
   engine.onend = () => {
@@ -396,6 +475,11 @@ document.querySelector("#conversationRecord").addEventListener("click", () => {
 
 document.querySelector("#nextQuestion").addEventListener("click", () => {
   const scenario = scenarios[activeScenario];
+  const currentAnswer = (conversationAnswers[activeQuestion] || "").trim();
+  if (!currentAnswer) {
+    document.querySelector("#conversationTextInput").focus();
+    return showToast("先用英文回答这一问，再继续");
+  }
   if (activeQuestion < scenario.questions.length - 1) {
     activeQuestion += 1;
     updateConversationStage();
@@ -404,7 +488,7 @@ document.querySelector("#nextQuestion").addEventListener("click", () => {
   }
   const completedAnswers = conversationAnswers.filter(Boolean);
   const words = completedAnswers.join(" ").trim().split(/\s+/).filter(Boolean).length;
-  document.querySelector("#sessionResultText").textContent = `你完成了 ${scenario.questions.length} 个问题，语音识别记录了 ${words} 个英文词。下一次试着回答得更完整。`;
+  document.querySelector("#sessionResultText").textContent = `你完成了 ${scenario.questions.length} 个问题，本轮共记录 ${words} 个英文词。下一次试着回答得更完整。`;
   document.querySelector("#sessionResult").hidden = false;
 });
 document.querySelector("#restartConversation").addEventListener("click", () => startScenario(activeScenario));
@@ -450,9 +534,36 @@ function updateMovieStudyCard() {
   document.querySelector("#wordBreakdown").innerHTML = line ? line.english.match(/[A-Za-z']+/g)?.map(word => `<button class="word-chip" data-movie-word="${word}">${word}</button>`).join("") || "" : "";
   document.querySelectorAll("[data-movie-word]").forEach(button => button.addEventListener("click", () => speak(button.dataset.movieWord)));
   const subtitle = document.querySelector("#movieSubtitle");
-  subtitle.hidden = !line;
+  subtitle.hidden = !line || subtitleMode === "off";
   document.querySelector("#movieSubtitleEnglish").textContent = line?.english || "";
   document.querySelector("#movieSubtitleChinese").textContent = line?.chinese || "";
+  document.querySelector("#movieSubtitleChinese").hidden = subtitleMode === "english";
+}
+
+function stopMovieAtLineEnd(video, end) {
+  if (movieStopHandler) video.removeEventListener("timeupdate", movieStopHandler);
+  movieStopHandler = () => {
+    if (video.currentTime >= end) {
+      video.pause();
+      video.removeEventListener("timeupdate", movieStopHandler);
+      movieStopHandler = null;
+    }
+  };
+  video.addEventListener("timeupdate", movieStopHandler);
+}
+
+function playOriginalMovieLine() {
+  const line = state.movieLines[activeMovieLine];
+  const video = document.querySelector("#movieVideo");
+  if (!line) return showToast("请先添加一句台词");
+  if (!video.src) return showToast("请先选择本机视频");
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  video.currentTime = Number(line.start);
+  video.muted = false;
+  stopMovieAtLineEnd(video, Number(line.end));
+  video.play().catch(() => showToast("请再次点击播放原声"));
+  document.querySelector("#playOriginalLine").classList.add("active");
+  document.querySelector("#previewDub").classList.remove("active");
 }
 
 function playDubbedMovieLine() {
@@ -460,22 +571,18 @@ function playDubbedMovieLine() {
   const video = document.querySelector("#movieVideo");
   if (!line) return showToast("请先添加一句台词");
   if (!video.src) return showToast("请先选择本机视频");
-  if (movieStopHandler) video.removeEventListener("timeupdate", movieStopHandler);
+  if (!("speechSynthesis" in window)) return showToast("当前浏览器不支持英文配音");
   speechSynthesis.cancel();
   video.currentTime = Number(line.start);
   video.muted = true;
-  movieStopHandler = () => {
-    if (video.currentTime >= Number(line.end)) {
-      video.pause();
-      video.removeEventListener("timeupdate", movieStopHandler);
-    }
-  };
-  video.addEventListener("timeupdate", movieStopHandler);
+  stopMovieAtLineEnd(video, Number(line.end));
   video.play().catch(() => {});
   const utterance = new SpeechSynthesisUtterance(line.english);
   utterance.lang = "en-US";
   utterance.rate = .86;
   speechSynthesis.speak(utterance);
+  document.querySelector("#previewDub").classList.add("active");
+  document.querySelector("#playOriginalLine").classList.remove("active");
 }
 
 document.querySelector("#movieFile").addEventListener("change", event => {
@@ -501,7 +608,9 @@ document.querySelector("#addMovieLine").addEventListener("click", () => {
   const chinese = document.querySelector("#lineChinese").value.trim();
   const english = document.querySelector("#lineEnglish").value.trim();
   if (!chinese || !english) return showToast("请填写中文原意和自然英文");
+  if (!Number.isFinite(start) || !Number.isFinite(end) || start < 0) return showToast("请填写有效的开始和结束时间");
   if (end <= start) return showToast("结束时间必须晚于开始时间");
+  if (end - start > 60) return showToast("单句片段请控制在 60 秒以内");
   state.movieLines.push({start, end, chinese, english});
   state.movieLines.sort((a, b) => a.start - b.start);
   activeMovieLine = state.movieLines.findIndex(line => line.start === start && line.english === english);
@@ -512,6 +621,12 @@ document.querySelector("#addMovieLine").addEventListener("click", () => {
   showToast("台词已加入影视英语练习");
 });
 document.querySelector("#previewDub").addEventListener("click", playDubbedMovieLine);
+document.querySelector("#playOriginalLine").addEventListener("click", playOriginalMovieLine);
+document.querySelectorAll("[data-subtitle-mode]").forEach(button => button.addEventListener("click", () => {
+  subtitleMode = button.dataset.subtitleMode;
+  document.querySelectorAll("[data-subtitle-mode]").forEach(item => item.classList.toggle("active", item === button));
+  updateMovieStudyCard();
+}));
 document.querySelector("#listenMovieLine").addEventListener("click", () => {
   const line = state.movieLines[activeMovieLine];
   if (!line) return showToast("请先添加一句台词");
@@ -535,38 +650,40 @@ function renderProgress() {
   const completed = state.completedDays.length;
   document.querySelector("#headerProgressText").textContent = `已完成 ${completed} 天`;
   document.querySelector("#headerProgressRing").style.setProperty("--progress", `${Math.min(completed / 180 * 360, 360)}deg`);
-  document.querySelector("#weekFraction").textContent = `${Math.min(completed, 7)} / 7`;
+  const weekStart = Math.floor((currentDay - 1) / 7) * 7 + 1;
+  const weekEnd = Math.min(weekStart + 6, 180);
+  const weekCompleted = state.completedDays.filter(day => day >= weekStart && day <= weekEnd).length;
+  document.querySelector("#weekFraction").textContent = `${weekCompleted} / ${weekEnd - weekStart + 1}`;
   const labels = ["一", "二", "三", "四", "五", "六", "日"];
   document.querySelector("#weekDays").innerHTML = labels.map((label, index) => `
-    <div class="week-day ${index < completed ? "done" : ""} ${index === completed ? "today" : ""}">
-      ${label}<span>${index + 1}</span>
+    <div class="week-day ${state.completedDays.includes(weekStart + index) ? "done" : ""} ${weekStart + index === currentDay && completed < 180 ? "today" : ""}">
+      ${label}<span>${weekStart + index <= 180 ? weekStart + index : "—"}</span>
     </div>`).join("");
   const button = document.querySelector("#completeDay");
-  const done = state.completedDays.includes(1);
-  button.textContent = done ? "今天已完成" : "完成今天的学习";
-  button.classList.toggle("done", done);
+  const allDone = completed >= 180;
+  button.textContent = allDone ? "180 天计划已完成" : `完成第 ${currentDay} 天`;
+  button.classList.toggle("done", allDone);
+  button.disabled = allDone;
 }
 
 document.querySelector("#completeDay").addEventListener("click", () => {
-  if (!state.completedDays.includes(1)) {
-    state.completedDays.push(1);
-    saveState();
-    renderProgress();
-    showToast("第 1 天完成了，做得很好！");
-  } else {
-    showToast("今天已经打卡完成");
-  }
+  const taskState = state.tasks[currentDay] || [];
+  if (!tasks.every((_, index) => taskState[index])) return showToast("完成并勾选 5 项任务后才能进入下一天");
+  if (state.completedDays.includes(currentDay)) return showToast("这一天已经完成");
+  const finishedDay = currentDay;
+  state.completedDays.push(finishedDay);
+  state.completedDays.sort((a, b) => a - b);
+  currentDay = Math.min(state.completedDays.length + 1, 180);
+  saveState();
+  renderTodayLesson();
+  renderProgress();
+  showToast(finishedDay === 180 ? "180 天计划完成了！" : `第 ${finishedDay} 天完成，已进入第 ${currentDay} 天`);
 });
 
-renderTasks();
-renderPhrases();
+renderTodayLesson();
 renderMonths();
 renderScenarios();
 updateConversationStage();
 renderMovieLines();
 renderProgress();
 initializeJournal();
-
-const todayVideo = videos[0];
-document.querySelector("#videoTitle").textContent = todayVideo.title;
-document.querySelector("#sourceLink").href = todayVideo.page;
