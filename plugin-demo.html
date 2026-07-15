@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="开口英语浏览器插件交互演示：英文配音短视频、可点击台词、单词解释与跟读。">
   <title>开口英语插件演示｜边刷边学</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="plugin-demo.css">
 </head>
 <body>
@@ -58,9 +55,9 @@
             <strong>正在生成英文版</strong>
             <small id="processingStep">识别人声和背景音乐</small>
           </div>
-          <div class="scene-light"></div>
-          <div class="speaker speaker-back"><span></span></div>
-          <div class="speaker speaker-front"><span></span></div>
+          <video class="demo-video" autoplay muted loop playsinline preload="metadata" aria-label="示例视频原画面">
+            <source src="https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50.mp4" type="video/mp4">
+          </video>
           <div class="video-status">
             <span>英文配音</span>
             <span>保留背景声</span>
@@ -70,8 +67,8 @@
             <span id="captionChinese">你为什么不能对我坦诚一点？</span>
           </div>
           <div class="video-meta">
-            <strong>示例片段 · 两个人的对话</strong>
-            <span>演示内容，不读取真实抖音数据</span>
+            <strong>示例视频 · 原画面保持不变</strong>
+            <span>英文声音与学习字幕叠加在原视频上</span>
           </div>
           <div class="video-progress"><span id="videoProgress"></span></div>
         </div>
@@ -82,7 +79,7 @@
           <button id="shadowLine">跟读这句</button>
           <button id="nextDemo" class="next-demo">模拟下一条视频</button>
         </div>
-        <p class="watch-note" id="watchNote">人物中文声音已替换为英文配音；点击右侧台词或单词试试看。</p>
+        <p class="watch-note" id="watchNote">视频画面保持不变；人物声音切换为英文，点击右侧台词或单词即可学习。</p>
       </section>
 
       <aside class="learning-panel" aria-label="实时台词和单词学习面板">
