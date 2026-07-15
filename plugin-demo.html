@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="开口英语浏览器插件交互演示：英文配音短视频、可点击台词、单词解释与跟读。">
+  <title>开口英语插件演示｜边刷边学</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="plugin-demo.css">
+</head>
+<body>
+  <header class="demo-header">
+    <a href="index.html" class="demo-brand" aria-label="返回开口英语">
+      <span class="brand-mark">A</span>
+      <span><strong>开口英语</strong><small>浏览器插件演示</small></span>
+    </a>
+    <div class="capture-status" id="captureStatus"><span></span>英文配音已开启</div>
+    <div class="header-actions">
+      <span class="demo-label">交互界面演示</span>
+      <a href="index.html">返回学习网站</a>
+    </div>
+  </header>
+
+  <main class="browser-frame">
+    <div class="browser-bar" aria-hidden="true">
+      <div class="browser-dots"><span></span><span></span><span></span></div>
+      <div class="address-bar">douyin.com · 开口英语插件正在处理当前标签页</div>
+      <div class="extension-badge">A 已开启</div>
+    </div>
+
+    <div class="workspace">
+      <nav class="video-nav" aria-label="短视频导航演示">
+        <strong>短视频</strong>
+        <button class="active">推荐</button>
+        <button>关注</button>
+        <button>收藏</button>
+        <button>我的</button>
+      </nav>
+
+      <section class="watch-area" aria-label="英文配音视频演示">
+        <div class="watch-toolbar">
+          <div class="mode-switch" aria-label="声音模式">
+            <button class="active" data-audio-mode="english">英文配音</button>
+            <button data-audio-mode="original">中文原声</button>
+          </div>
+          <div class="mode-switch compact" aria-label="字幕模式">
+            <button class="active" data-caption-mode="bilingual">双语字幕</button>
+            <button data-caption-mode="english">纯英文</button>
+            <button data-caption-mode="off">关闭字幕</button>
+          </div>
+        </div>
+
+        <div class="video-stage" id="videoStage">
+          <div class="processing-card" id="processingCard" hidden>
+            <span class="processing-ring"></span>
+            <strong>正在生成英文版</strong>
+            <small id="processingStep">识别人声和背景音乐</small>
+          </div>
+          <div class="scene-light"></div>
+          <div class="speaker speaker-back"><span></span></div>
+          <div class="speaker speaker-front"><span></span></div>
+          <div class="video-status">
+            <span>英文配音</span>
+            <span>保留背景声</span>
+          </div>
+          <div class="caption-overlay" id="captionOverlay">
+            <strong id="captionEnglish">Why can't you be honest with me?</strong>
+            <span id="captionChinese">你为什么不能对我坦诚一点？</span>
+          </div>
+          <div class="video-meta">
+            <strong>示例片段 · 两个人的对话</strong>
+            <span>演示内容，不读取真实抖音数据</span>
+          </div>
+          <div class="video-progress"><span id="videoProgress"></span></div>
+        </div>
+
+        <div class="watch-actions">
+          <button id="replayLine">重播当前句</button>
+          <button id="toggleLoop">单句循环</button>
+          <button id="shadowLine">跟读这句</button>
+          <button id="nextDemo" class="next-demo">模拟下一条视频</button>
+        </div>
+        <p class="watch-note" id="watchNote">人物中文声音已替换为英文配音；点击右侧台词或单词试试看。</p>
+      </section>
+
+      <aside class="learning-panel" aria-label="实时台词和单词学习面板">
+        <div class="panel-header">
+          <div><span>当前视频</span><h1>实时台词</h1></div>
+          <span class="sync-status">已同步</span>
+        </div>
+
+        <div class="transcript-list" id="transcriptList"></div>
+
+        <section class="word-card" id="wordCard" aria-live="polite">
+          <div class="word-head">
+            <div><span>当前单词</span><h2 id="wordTitle">honest</h2></div>
+            <button id="saveWord">收藏单词</button>
+          </div>
+          <p class="phonetic" id="wordPhonetic">/ˈɑːnɪst/ · 形容词</p>
+          <p class="word-meaning" id="wordMeaning">诚实的；坦诚的</p>
+          <div class="context-meaning">
+            <strong>在这句话里的意思</strong>
+            <span id="wordContext">坦诚地告诉对方真实情况，不隐瞒。</span>
+          </div>
+          <div class="word-actions">
+            <button id="speakWord">单独发音</button>
+            <button id="speakWordSlow">慢速发音</button>
+          </div>
+        </section>
+
+        <div class="learning-footer">
+          <div><span>本条已学</span><strong id="learnedCount">1 个表达</strong></div>
+          <button id="saveSentence">收藏当前台词</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="toast" id="demoToast" role="status" aria-live="polite"></div>
+  <script src="plugin-demo.js"></script>
+</body>
+</html>
