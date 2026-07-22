@@ -3,145 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="为英语初学者设计的30天开口基础训练：个人表达、跟读、对话与间隔复习。">
+  <meta name="description" content="面向英语初学者的180天英语训练系统：个人表达、听力解码、分级阅读、口语输出与阶段盲测。">
   <meta name="theme-color" content="#ffffff">
-  <title>开口英语｜30天开口基础</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>开口英语｜180天英语改造计划</title>
+  <link rel="stylesheet" href="styles.css?v=20260722-2">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="#today" aria-label="开口英语首页">
-      <span class="brand-mark" aria-hidden="true">A</span>
-      <span><strong>开口英语</strong><small>30天开口基础</small></span>
+      <span class="brand-mark" aria-hidden="true">180</span>
+      <span><strong>开口英语</strong><small>180天英语改造计划</small></span>
     </a>
     <nav class="main-nav" aria-label="主导航">
       <button class="nav-item active" data-view="today">今天</button>
+      <button class="nav-item" data-view="path">180天路径</button>
       <button class="nav-item" data-view="expressions">我的表达</button>
-      <button class="nav-item" data-view="immersion">沉浸练习</button>
+      <button class="nav-item" data-view="immersion">视频实验室</button>
       <button class="nav-item" data-view="progress">我的进步</button>
     </nav>
-    <div class="header-progress" aria-label="30天阶段进度">
-      <span id="headerProgressText">第 1 天</span>
-      <span class="progress-ring" id="headerProgressRing" aria-hidden="true"></span>
+    <div class="header-progress" aria-label="180天进度">
+      <span id="headerPhaseText">阶段 1</span>
+      <strong id="headerProgressText">第 1 天</strong>
+      <span class="header-progress-track" aria-hidden="true"><span id="headerProgressFill"></span></span>
     </div>
   </header>
 
   <main>
     <section class="view active" id="today" aria-labelledby="todayTitle">
       <div class="today-hero">
-        <div class="day-number" aria-hidden="true" id="heroDayNumber">01</div>
+        <div class="day-number" aria-hidden="true" id="heroDayNumber">001</div>
         <div class="today-copy">
-          <p class="eyebrow" id="dayLabel">第 1 天 / 30 天</p>
-          <h1 id="todayTitle">第一次介绍自己</h1>
-          <p class="today-focus" id="todayFocus">今天只做好一件事：让别人认识你。</p>
+          <p class="eyebrow" id="dayLabel">第 1 天 / 180 天</p>
+          <h1 id="todayTitle">起点测评与第一次介绍自己</h1>
+          <p class="today-focus" id="todayFocus">先留下真实起点，再开始改变。</p>
           <div class="outcome-row">
-            <span>完成标准</span>
-            <strong id="todayOutcome">能用 5 句话完成基础自我介绍</strong>
+            <span>今天的作品</span>
+            <strong id="todayOutcome">保存第一段自我介绍</strong>
+          </div>
+          <div class="lesson-tags">
+            <span id="todayPronunciation">声音重点：句子重音</span>
+            <span id="todayGrammar">表达重点：I am / I live / I like</span>
           </div>
         </div>
-        <aside class="time-plan" aria-label="选择今天的学习时长">
-          <span class="field-label">今天有多少时间？</span>
+        <aside class="time-plan" aria-label="选择今天的学习模式">
+          <span class="field-label">今天使用哪种训练模式？</span>
           <div class="time-options" id="timeOptions">
-            <button data-minutes="15">15分钟<small>最低完成</small></button>
-            <button data-minutes="30" class="active">30分钟<small>推荐</small></button>
-            <button data-minutes="60">60分钟<small>完整训练</small></button>
+            <button data-minutes="35">35分钟<small>保底模式</small></button>
+            <button data-minutes="90">90分钟<small>忙碌模式</small></button>
+            <button data-minutes="180" class="active">180分钟<small>目标模式</small></button>
           </div>
-          <p id="timePlanDescription">完成5句跟读、1条个人表达和1轮对话。</p>
+          <p id="timePlanDescription">完成全部训练。按这个强度执行，才与180天目标匹配。</p>
         </aside>
       </div>
 
       <div class="daily-layout">
         <section class="learning-spine" aria-label="今天的学习步骤">
-          <article class="daily-step" data-step="listen">
+          <article class="daily-step" data-step="review">
             <header class="step-head">
               <span class="step-index">01</span>
-              <div><h2>先听懂今天要说什么</h2><p>听问题和5个回答，先建立声音印象。</p></div>
-              <span class="step-status" id="listenStatus">未开始</span>
+              <div><h2>先把旧表达叫回来</h2><p>先回想，再看答案。复习安排在第1、3、7、14、30天。</p></div>
+              <span class="step-status" id="reviewStatus">无需复习</span>
             </header>
-            <div class="prompt-card">
-              <span>对方会问</span>
-              <p id="coachQuestion">Hi! Nice to meet you. What's your name?</p>
-              <button class="text-button" id="listenQuestion">听问题</button>
-            </div>
-            <button class="primary-action" id="listenAll">连续听5句</button>
-          </article>
-
-          <article class="daily-step" data-step="phrases">
-            <header class="step-head">
-              <span class="step-index">02</span>
-              <div><h2>听一句，马上说一句</h2><p>点击英文听发音，再点“我会说了”。</p></div>
-              <span class="step-status" id="phraseStatus">0 / 5</span>
-            </header>
-            <div class="phrase-list" id="todayPhrases"></div>
+            <div class="due-review" id="dueReview"></div>
           </article>
 
           <article class="daily-step" data-step="personal">
             <header class="step-head">
-              <span class="step-index">03</span>
-              <div><h2>写一句你自己真的会说的话</h2><p>可以从今天的句子开始改，不用写复杂英文。</p></div>
+              <span class="step-index">02</span>
+              <div><h2>把今天真实想说的话变成英文</h2><p id="diaryPrompt">写下今天最想介绍给别人的一件事。</p></div>
               <span class="step-status" id="personalStatus">未保存</span>
             </header>
             <div class="template-row" id="phraseTemplates" aria-label="今天的表达模板"></div>
             <div class="personal-editor">
-              <label>我想表达的中文<textarea id="personalChinese" maxlength="160" placeholder="例如：我现在住在纽约。"></textarea></label>
-              <label>简单自然的英文<textarea id="personalEnglish" maxlength="240" lang="en" placeholder="例如：I live in New York now."></textarea></label>
+              <label>我真正想说的中文<textarea id="personalChinese" maxlength="240" placeholder="例如：我刚搬到纽约，正在重新开始学英文。"></textarea></label>
+              <label>简单自然的英文<textarea id="personalEnglish" maxlength="360" lang="en" placeholder="先从上面的句型改写，不追求复杂。"></textarea></label>
             </div>
             <div class="editor-actions">
               <button class="primary-action" id="saveExpression">保存到我的表达</button>
               <button class="secondary-action" id="listenPersonal">听英文</button>
             </div>
+            <p class="privacy-note">个人表达只保存在当前浏览器，不会上传。</p>
+          </article>
+
+          <article class="daily-step" data-step="listen">
+            <header class="step-head">
+              <span class="step-index">03</span>
+              <div><h2>听真实意思，不靠中文猜</h2><p>第一次只听；英文台词只用于查漏；最后再关闭台词复测。</p></div>
+              <span class="step-status" id="listenStatus">未开始</span>
+            </header>
+            <div class="listening-brief">
+              <div><span class="field-label">今日听力</span><h3 id="listeningTitle">A first introduction</h3><p id="listeningTask">听完后说出人物的姓名、所在地和学习目标。</p></div>
+              <div class="listening-actions">
+                <button class="primary-action" id="listenFirstPass">第一次只听</button>
+                <button class="secondary-action" id="revealTranscript">查看英文台词</button>
+                <button class="secondary-action" id="listenReplay">再次听</button>
+                <button class="secondary-action" id="confirmManualListening">播放器无声？记录外部音频首听</button>
+              </div>
+            </div>
+            <div class="self-score" id="listeningScore">
+              <span>第一次大约听懂多少？</span>
+              <button data-listening-score="25">25%</button>
+              <button data-listening-score="50">50%</button>
+              <button data-listening-score="75">75%</button>
+              <button data-listening-score="100">100%</button>
+            </div>
+            <div class="transcript-panel" id="listeningTranscript" hidden>
+              <span class="field-label">英文台词</span>
+              <p id="listeningText" lang="en"></p>
+            </div>
+            <div class="section-rule"><span>今天必须会说的5个词块</span></div>
+            <div class="phrase-list" id="todayPhrases"></div>
+            <button class="text-action" id="completeListeningRetest">完成关闭台词复测</button>
+            <button class="text-action" id="confirmManualRetest">播放器无声？记录外部音频无台词复测</button>
+          </article>
+
+          <article class="daily-step" data-step="reading">
+            <header class="step-head">
+              <span class="step-index">04</span>
+              <div><h2>先读懂，再用自己的话说</h2><p>第一遍不查词；第二遍只处理真正影响理解的词。</p></div>
+              <span class="step-status" id="readingStatus">未完成</span>
+            </header>
+            <div class="reading-card">
+              <div class="reading-heading"><div><span class="field-label">今日阅读</span><h3 id="readingTitle">A New Start</h3></div><span id="readingMeta">约 80 词</span></div>
+              <div class="reading-text" id="readingText" lang="en"></div>
+              <p class="reading-task"><strong>读后任务：</strong><span id="readingTask"></span></p>
+              <label>用简单英文写出或说出总结<textarea id="readingSummary" maxlength="600" lang="en" placeholder="先写出你真正理解的内容，不需要逐句翻译。"></textarea></label>
+              <div class="editor-actions">
+                <button class="secondary-action" id="readAloud">听全文</button>
+                <button class="primary-action" id="saveReading">保存阅读结果</button>
+              </div>
+              <div class="answer-feedback" id="readingFeedback">完成后会记录总结长度和下一步建议。</div>
+            </div>
           </article>
 
           <article class="daily-step" data-step="conversation">
             <header class="step-head">
-              <span class="step-index">04</span>
-              <div><h2>直接回答，不等准备好</h2><p>先表达意思，结束后再修正。</p></div>
+              <span class="step-index">05</span>
+              <div><h2>不看答案，完成今天的口语作品</h2><p>先完整说一遍，再修正。保存未经剪辑的第一次表达更有价值。</p></div>
               <span class="step-status" id="conversationStatus">未回答</span>
             </header>
             <div class="conversation-card">
-              <p id="conversationQuestion">Hi! Nice to meet you. What's your name?</p>
-              <label for="conversationAnswer">你的回答</label>
-              <textarea id="conversationAnswer" maxlength="320" lang="en" placeholder="Type or speak your answer..."></textarea>
+              <span class="field-label">今天的口语题</span>
+              <p id="conversationQuestion">Introduce yourself and explain why you want to learn English.</p>
+              <label for="conversationAnswer">语音识别结果或手动输入</label>
+              <textarea id="conversationAnswer" maxlength="1000" lang="en" placeholder="点击“语音转文字”，或直接输入你的英文回答。"></textarea>
               <div class="conversation-actions">
-                <button class="secondary-action" id="recordAnswer">开始说</button>
-                <button class="primary-action" id="saveAnswer">完成回答</button>
+                <button class="secondary-action" id="recordAnswer">语音转文字</button>
+                <button class="secondary-action" id="recordAudio">录制原始音频</button>
+                <button class="secondary-action" id="listenAnswer">听我的回答</button>
+                <button class="primary-action" id="saveAnswer">保存口语作品</button>
               </div>
-              <div class="answer-feedback" id="answerFeedback" aria-live="polite">回答后，这里会显示表达长度和下一步建议。</div>
+              <div class="audio-evidence" id="audioEvidence" hidden>
+                <audio id="audioPlayback" controls preload="metadata"></audio>
+                <span id="audioStatus">原始录音只保存在当前浏览器。</span>
+              </div>
+              <div class="answer-feedback" id="answerFeedback">回答后，这里会显示表达长度和下一步建议。</div>
             </div>
           </article>
 
-          <article class="daily-step" data-step="review">
+          <article class="daily-step assessment-step" id="assessmentStep" data-step="assessment" hidden>
             <header class="step-head">
-              <span class="step-index">05</span>
-              <div><h2>复习快要忘记的表达</h2><p>只复习到期的句子，不把时间浪费在已经会的内容上。</p></div>
-              <span class="step-status" id="reviewStatus">0 条到期</span>
+              <span class="step-index">06</span>
+              <div><h2>记录第一次阶段成绩</h2><p>使用陌生材料完成测试。第一次成绩会保留，重测不能覆盖真实起点。</p></div>
+              <span class="step-status" id="assessmentStatus">未记录</span>
             </header>
-            <div class="due-review" id="dueReview"></div>
+            <div class="assessment-form">
+              <label>口语与互动（40%）<input id="scoreSpeaking" type="number" min="0" max="100" inputmode="numeric" placeholder="0—100"></label>
+              <label>无字幕听力（25%）<input id="scoreListening" type="number" min="0" max="100" inputmode="numeric" placeholder="0—100"></label>
+              <label>限时阅读（20%）<input id="scoreReading" type="number" min="0" max="100" inputmode="numeric" placeholder="0—100"></label>
+              <label>表达留存（15%）<input id="scoreRetention" type="number" min="0" max="100" inputmode="numeric" placeholder="0—100"></label>
+            </div>
+            <button class="primary-action" id="saveAssessment">保存阶段成绩</button>
+            <div class="answer-feedback" id="assessmentResult">总分达到75，且任何单项不低于60，才算阶段通过。</div>
           </article>
         </section>
 
         <aside class="day-summary">
           <div class="summary-sticky">
-            <span class="field-label">今天的完成情况</span>
+            <span class="field-label">今天的验收</span>
             <div class="completion-score"><strong id="completionPercent">0%</strong><span id="completionText">还没有开始</span></div>
             <div class="requirement-list" id="requirementList"></div>
             <button class="complete-day" id="completeDay">完成今天</button>
-            <p class="summary-note">完成由真实操作记录，不需要自己勾选。</p>
+            <p class="summary-note">必须留下表达、听力、阅读和口语结果，不能只手动打卡。</p>
+            <button class="summary-link" data-open-view="path">查看完整180天路径</button>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="view" id="path" aria-labelledby="pathTitle">
+      <div class="page-title split-title">
+        <div><p class="eyebrow">完整课程已经排入系统</p><h1 id="pathTitle">180天，只走一条路</h1><p>六个阶段逐步增加真实语速、阅读长度和交流难度。点击任何一天可以预览当天材料。</p></div>
+        <div class="path-legend"><span><i class="legend-done"></i>已完成</span><span><i class="legend-current"></i>今天</span><span><i></i>待训练</span></div>
+      </div>
+      <div class="phase-overview" id="phaseOverview"></div>
+      <div class="course-layout">
+        <div class="course-map" id="courseMap"></div>
+        <aside class="course-preview" id="coursePreview" aria-live="polite"></aside>
       </div>
     </section>
 
     <section class="view" id="expressions" aria-labelledby="expressionsTitle">
       <div class="page-title">
         <p class="eyebrow">你的个人英文语言体系</p>
-        <h1 id="expressionsTitle">我的表达</h1>
-        <p>这里保存的不是课本例句，而是你自己以后真正会用到的话。</p>
+        <h1 id="expressionsTitle">只保存你真的会用的话</h1>
+        <p>系统会在第1、3、7、14、30天安排主动回忆。先想起英文，再看答案。</p>
       </div>
       <div class="expression-summary">
         <div><strong id="expressionTotal">0</strong><span>个人表达</span></div>
         <div><strong id="expressionDue">0</strong><span>今天到期</span></div>
-        <div><strong id="expressionMastered">0</strong><span>已复习3次</span></div>
+        <div><strong id="expressionMastered">0</strong><span>已复习5次</span></div>
       </div>
       <div class="expression-toolbar">
         <button class="filter-button active" data-expression-filter="all">全部</button>
@@ -153,9 +224,9 @@
 
     <section class="view" id="immersion" aria-labelledby="immersionTitle">
       <div class="page-title">
-        <p class="eyebrow">真实画面帮助你理解声音</p>
-        <h1 id="immersionTitle">沉浸练习</h1>
-        <p>每周选择一段初级英语视频。第一遍看画面，第二遍暂停模仿，第三遍关闭中文。</p>
+        <p class="eyebrow">原画面保留，英文声音与台词作为训练材料</p>
+        <h1 id="immersionTitle">视频与台词实验室</h1>
+        <p>使用内置初级视频，或打开你自己的视频；把英文台词放在旁边，点击单词即可查看解释并单独发音。</p>
       </div>
       <div class="immersion-layout">
         <section class="video-study">
@@ -165,43 +236,66 @@
             <a id="videoSource" href="#" target="_blank" rel="noreferrer">查看原课程</a>
           </div>
           <div class="shadow-guide">
-            <div><span>1</span><strong>只看画面</strong><small>先猜人物在做什么</small></div>
-            <div><span>2</span><strong>暂停模仿</strong><small>每句大声说三次</small></div>
-            <div><span>3</span><strong>关闭中文</strong><small>跟人物一起说</small></div>
+            <div><span>1</span><strong>关闭台词首测</strong><small>先听大意，不暂停</small></div>
+            <div><span>2</span><strong>英文台词查漏</strong><small>解决声音与词的连接</small></div>
+            <div><span>3</span><strong>再次关闭台词</strong><small>隔天还要再测一次</small></div>
           </div>
         </section>
         <aside class="video-library">
-          <div class="section-title"><span>6段基础视频</span><strong>选择本周材料</strong></div>
+          <div class="section-title"><span>内置初级视频</span><strong>选择本周材料</strong></div>
           <div id="videoList"></div>
           <div class="local-video">
-            <strong>也可以练自己的视频</strong>
+            <strong>打开自己的视频</strong>
             <p>视频只在当前浏览器中打开，不会上传。</p>
             <label for="localVideo">选择本机视频</label>
             <input id="localVideo" type="file" accept="video/mp4,video/quicktime,video/webm">
           </div>
         </aside>
       </div>
+      <section class="transcript-workbench">
+        <div class="workbench-input">
+          <span class="field-label">英文台词</span>
+          <h2>点击单词，立即听发音和看解释</h2>
+          <textarea id="transcriptInput" lang="en" maxlength="5000" placeholder="粘贴英文台词，或载入今天的听力台词。"></textarea>
+          <div class="editor-actions">
+            <button class="primary-action" id="loadTodayTranscript">载入今日台词</button>
+            <button class="secondary-action" id="buildTranscript">生成可点击台词</button>
+          </div>
+        </div>
+        <div class="interactive-transcript" id="interactiveTranscript"><p>台词会显示在这里。</p></div>
+        <aside class="word-panel" id="wordPanel">
+          <span class="field-label">单词解释</span>
+          <h3 id="wordTitle">点击一个单词</h3>
+          <p id="wordPhonetic">发音和解释将显示在这里。</p>
+          <p id="wordMeaning"></p>
+          <button class="secondary-action" id="speakWord" disabled>单独发音</button>
+        </aside>
+      </section>
     </section>
 
     <section class="view" id="progress" aria-labelledby="progressTitle">
       <div class="page-title">
-        <p class="eyebrow">不只看打卡，更看真正能说什么</p>
-        <h1 id="progressTitle">我的进步</h1>
-        <p>完成天数只是过程。个人表达、连续回答和阶段复测才代表交流能力。</p>
+        <p class="eyebrow">用陌生任务证明能力</p>
+        <h1 id="progressTitle">不只看打卡，看你真正能做到什么</h1>
+        <p>每7天复测一次，每30天进行一次阶段盲测。第一次成绩会保留，避免用背熟材料冒充能力。</p>
       </div>
       <div class="metric-grid">
-        <article><span>已完成</span><strong id="metricDays">0 天</strong><small>30天第一阶段</small></article>
-        <article><span>主动表达</span><strong id="metricExpressions">0 句</strong><small>来自你的真实生活</small></article>
-        <article><span>最长回答</span><strong id="metricLongest">0 词</strong><small>一次连续表达</small></article>
-        <article><span>完成对话</span><strong id="metricConversations">0 次</strong><small>真实回答记录</small></article>
+        <article><span>已完成</span><strong id="metricDays">0 天</strong><small>目标完成率至少85%</small></article>
+        <article><span>个人表达</span><strong id="metricExpressions">0 句</strong><small>目标800—1000句</small></article>
+        <article><span>最长回答</span><strong id="metricLongest">0 词</strong><small>无提示连续表达</small></article>
+        <article><span>听力首测</span><strong id="metricListening">—</strong><small>所有已记录首测平均值</small></article>
       </div>
       <section class="assessment-section">
-        <div class="section-title"><span>每周复测</span><strong>用结果证明进步</strong></div>
+        <div class="section-title"><span>六次阶段验收</span><strong>第30 / 60 / 90 / 120 / 150 / 180天</strong></div>
         <div class="assessment-grid" id="assessmentGrid"></div>
       </section>
-      <section class="thirty-day-map">
-        <div class="section-title"><span>第一阶段</span><strong>30天课程地图</strong></div>
-        <div class="day-map" id="dayMap"></div>
+      <section class="phase-progress-section">
+        <div class="section-title"><span>阶段进度</span><strong>哪里停滞，就集中修复哪里</strong></div>
+        <div id="phaseProgressList"></div>
+      </section>
+      <section class="data-section">
+        <div><strong>学习记录属于你</strong><p>可导出当前浏览器中的课程、表达和测评记录，避免更换设备后丢失。</p></div>
+        <button class="secondary-action" id="exportData">导出学习记录</button>
       </section>
     </section>
   </main>
@@ -209,19 +303,26 @@
   <div class="onboarding" id="onboarding" hidden>
     <div class="onboarding-card" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
       <span class="eyebrow">第一次使用</span>
-      <h2 id="onboardingTitle">先选一个你能坚持的节奏</h2>
-      <p>不用一开始每天学习很久。连续完成，比偶尔学两个小时更有效。</p>
+      <h2 id="onboardingTitle">先签下你的180天训练协议</h2>
+      <p>从零基础到稳定交流需要真实训练量。目标模式每天180分钟；短模式用于偶发的忙碌日，不应成为常态。</p>
       <div class="onboarding-options">
-        <button data-onboard-minutes="15"><strong>每天15分钟</strong><span>先建立习惯</span></button>
-        <button data-onboard-minutes="30" class="active"><strong>每天30分钟</strong><span>推荐选择</span></button>
-        <button data-onboard-minutes="60"><strong>每天60分钟</strong><span>完整训练</span></button>
+        <button data-onboard-minutes="35"><strong>35分钟</strong><span>每周最多两次</span></button>
+        <button data-onboard-minutes="90"><strong>90分钟</strong><span>忙碌日缩减材料</span></button>
+        <button data-onboard-minutes="180" class="active"><strong>180分钟</strong><span>与最终目标匹配</span></button>
       </div>
-      <button class="primary-action" id="finishOnboarding">开始第1天</button>
+      <ul class="training-rules">
+        <li>每天真正出声，而不是只看答案。</li>
+        <li>第一次听力不偷看台词，第一次阅读不查词。</li>
+        <li>第30天起每周至少一次真人交流，第61天起至少两次。</li>
+      </ul>
+      <button class="primary-action" id="finishOnboarding">从第1天开始</button>
     </div>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="curriculum.js"></script>
-  <script src="app.js"></script>
+  <script src="curriculum.js?v=20260722-2"></script>
+  <script src="curriculum180.js?v=20260722-2"></script>
+  <script src="core.js?v=20260722-2"></script>
+  <script src="app.js?v=20260722-2"></script>
 </body>
 </html>
